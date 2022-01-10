@@ -1,0 +1,4 @@
+Name: diy-deploy
+replicas: 2
+spec.selector.matchLabels project: diy
+spec.template.metadata.labels project: diy
