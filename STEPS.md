@@ -84,6 +84,8 @@ Kubernetes has a separate object, called a Horizontal Pod Autoscaler (HPA), for 
 >kubectl delete svc cloud-lb
 
 
+>kubectl version -o yaml
+
 
 
 
