@@ -50,3 +50,12 @@ in charge of notifying when tasks are received and reporting on the status of th
 
 The container runtime starts and stops containers.
 
+
+Most of the cloud providers have hosted Kubernetes Services. Some of the more popular ones include:
+- AWS: Elastic Kubernetes Service (EKS)
+- Azure: Azure Kubernetes Service (AKS)
+- DO: Digital Ocean Kubernetes Service (DOKS)
+- GCP: Google Kubernetes Engine (GKE)
+- Linode: Linode Kubernetes Engine (LKE)
+
+
