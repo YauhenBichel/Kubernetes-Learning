@@ -59,3 +59,7 @@ Most of the cloud providers have hosted Kubernetes Services. Some of the more po
 - Linode: Linode Kubernetes Engine (LKE)
 
 
+Kubernetes’ job is to take a group of machines and expose them to us as if it was a single thing. It’s similar to running an application locally; you don’t care which CPU core is executing it or the memory addresses the application is using. We just run the application, and let the operating system take care of the rest. Kubernetes does that at the datacenter level. It doesn’t matter if we have one or one thousand machines available. The way we interact with Kubernetes is the same: we tell it what we want, and it will do its best to make that happen.
+
+
+
