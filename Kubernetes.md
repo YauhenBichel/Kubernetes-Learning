@@ -59,7 +59,32 @@ Most of the cloud providers have hosted Kubernetes Services. Some of the more po
 - Linode: Linode Kubernetes Engine (LKE)
 
 
+### Kubernetes's job
 Kubernetes’ job is to take a group of machines and expose them to us as if it was a single thing. It’s similar to running an application locally; you don’t care which CPU core is executing it or the memory addresses the application is using. We just run the application, and let the operating system take care of the rest. Kubernetes does that at the datacenter level. It doesn’t matter if we have one or one thousand machines available. The way we interact with Kubernetes is the same: we tell it what we want, and it will do its best to make that happen.
+
+### cluster
+When we say “cluster,” we are talking about the two main components of Kubernetes:
+- The master node
+- Worker nodes.
+
+### worker node
+The worker nodes are where our applications actually run. We usually never need to interact with these nodes directly, and they should be easily replaceable. Multiple applications can run on the same node, and the same application can have multiple replicas spread across different nodes.
+
+### master node
+In the master node is where the magic happens. You can think of it as the brain of the cluster. We send changes to our desired state (usually in the form of yaml manifest files) to the master that will then decide what it needs to do. Kubernetes is always running this reconciliation loop. It compares the current state with the desired state, and makes the necessary changes to always make sure we have what we want.
+
+### kubectl 
+kubectl is the Kubernetes CLI, and it will be our main interface with Kubernetes for most of the time. It is the tool we use to send information to our cluster
+
+There are two main ways to use kubectl:
+- Declarative way
+- Imperative way
+
+We use it declaratively when we create a manifest that defines what we want and just send that to our cluster that will then find a way to make that happen.
+
+We use it imperatively when we give our cluster specific orders telling it how to do what we want.
+
+The imperative usage of kubectl is fine for development or to quickly test things out. But, the recommended way to use Kubernetes is declaratively, and that’s what we are going to do throughout this course. You will see that things are a lot simpler when we can just tell it what we want and not have to worry about how that will get done.
 
 
 
