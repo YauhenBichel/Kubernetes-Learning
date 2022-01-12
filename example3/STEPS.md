@@ -11,3 +11,24 @@ Sumup:
 - We created a manifest file called nginx.yaml, saying we wanted to run the nginx docker image.
 - We sent this manifest to Kubernetes using kubectl.
 - After we confirmed the application was running, we used kubectl again to forward request, which was received on port 3000, to our application.
+
+kubectl logs --follow nginx
+               ^        ^ 
+               |        |
+                ------------- tells kubectl to keep
+                        |     streaming the logs live,
+                        |     instead of just
+                        |     printing and exiting 
+                        |
+                         ---- the name of the pod we want
+                              to see the logs
+                              
+kubectl exec nginx -- ls
+# bin
+# boot
+# dev
+# etc
+# home
+# ...
+
+

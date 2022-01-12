@@ -1,31 +1,30 @@
-# nginx.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-svc
+  name: hellok8s-svc
 spec:
   selector:
-    app: nginx
+    app: hellok8s
   ports:
-  - port: 1234
-    targetPort: 80
+  - port: 4567
+    targetPort: 4567
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: hellok8s
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: hellok8s
   template:
     metadata:
       labels:
-        app: nginx
+        app: hellok8s
     spec:
       containers:
-      - image: nginx
-        name: nginx-container
+      - image: brianstorti/hellok8s:v3
+        name: hellok8s-container
