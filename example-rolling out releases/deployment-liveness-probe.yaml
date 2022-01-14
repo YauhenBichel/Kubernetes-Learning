@@ -1,11 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hellok8s2
+  name: hellok8s
 spec:
-  strategy:
-    type: Recreate
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: hellok8s
@@ -17,9 +15,13 @@ spec:
       containers:
       - image: yauhenbichel/hellok8s:v2
         name: hellok8s-container
-        readinessProbe: # New readiness probe
+        readinessProbe:
           periodSeconds: 1
           successThreshold: 5
+          httpGet:
+            path: /
+            port: 4567
+        livenessProbe:
           httpGet:
             path: /
             port: 4567
