@@ -12,4 +12,48 @@ If this was all we could do with an Ingress though, there wouldn’t be much dif
 
 We will update our ingress manifest to define a new path that sends every request received at "/hello" to our hellok8s-svc. It works exactly the same way as the nginx rule; it’s just another entry in the same manifest:
 
+So that’s nice! Now we can direct requests to the service we want based on the path we receive, such as / to nginx, /hello to hellok8s.
+
+In practice, though, we usually will want to serve our services in different hosts. For example, we could want to serve nginx in http://nginx.example.com and hellok8s in http://hello.example.com.
+
+Let’s see how we can change this Ingress to do that.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    # We are defining this annotation to prevent nginx
+    # from redirecting requests to `https` for now
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: nginx.local.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-svc
+                port:
+                  number: 1234
+
+    - host: hello.local.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hellok8s-svc
+                port:
+                  number: 4567
+
+It’s pretty much the same manifest with two changes:
+
+Instead of defining one rule with two paths, we now have two different rules.
+Each rule will define a host attribute that will tell Kubernetes that it should match only if the request received is sent to this host (such as, the Host header in the HTTP request).
+
+
 
