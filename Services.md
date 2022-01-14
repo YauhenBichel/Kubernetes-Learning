@@ -46,6 +46,20 @@ This is the simplest type of service. It’s also the default type, which means 
 
 This type of service is used when we only need to give other applications that are running inside our cluster access to our pods. If we have, say, three replicas of application app-a and another application app-b needs a stable endpoint to access these replicas, we could create service-a using the ClusterIP type.
 
+## NodePort
+This is the type of service we have been using so far, and it builds on top of the ClusterIP type. You can think of it as an extension, so everything we can do with a ClusterIP, we can also do with a NodePort service. In addition to allowing applications that are running in our cluster to talk to each other, it will also allow us to expose our application to the outside world. It works by opening a port on all the worker nodes we have in our cluster, and then redirecting requests received on that port to the correct location, even if the pod we are trying to reach is physically running on a different node.
+
+When we create a NodePort service exposing the port 30001, this port is open on both nodes and our external clients would be able to access either http://node1-ip:30001 or http://node2-ip:30001 the same way. When one of the nodes receives a request on this port, it will find our service that will then be able to decide which pod should receive the request (even if the pod is physically running in another node). When we are testing this locally, we have only one worker node (that is localhost), so that’s the only entrypoint for these requests. But in a cluster with, say, 10 nodes, this same port would be open in all these 10 machines, and we would be able to access our service by sending requests to any of them.
+
+## LoadBalancer
+The LoadBalancer Service type is really impressive. It’s an extension of the NodePort type, but it will try to provision a Load Balancer on the cloud provider we are running. For example, if our Kubernetes cluster is running on AWS when we create a LoadBalancer service, it would automatically create an ELB (Elastic Load Balancer) that is correctly setup for us.
+
+That should work on pretty much every major cloud provider, and it is probably the easiest way to expose an application running in Kubernetes to the outside world. Then the way it works is pretty similar to the other service types, but instead of having to connect to a worker node IP and port, we can send requests to this Load Balancer, and it will route them to our pods the same way.
+
+Load Balancer is an extension of a NodePort and ClusterIP. This means you have all the capabilities we discussed before, plus the automatic load balancer provisioning.
+
+We just need to keep in mind that it will provision an entirely new load balancer for every service of this type that we have. When we talk about the Ingress resource, we will see ways to use a single load balancer with multiple services.
+
 
 
 
