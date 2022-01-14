@@ -82,3 +82,14 @@ Kubernetes provides two different service discovery mechanisms: DNS and injected
 ### DNS
 Kubernetes provides an out-of-the box, a DNS service to resolve service names. Here’s how it works: If you create a service called service-a, Kubernetes will add an entry for this service in its DNS, so any pod will be able to call, for example, http://service-a:4567. That will be correctly resolved to the service’s IP
 
+### Environment variables
+Another way to find services is through environment variables. Every container that Kubernetes creates will have environment variables that can be used to find every service that is currently running in the cluster. For example, if we use the env command to print all the environment variables with the HELLOK8S string, that’s what we get:
+
+So we could access our service with something like:
+curl $HELLOK8S_SVC_SERVICE_HOST:$HELLOK8S_SVC_SERVICE_PORT
+# [v3] Hello, Kubernetes, from hellok8s-7f4c57d446-lh44f!
+
+One thing that we need to be aware of is that these environment variables are injected into the pods at creation time only, so that means that services that are created after the pod will not be available. Also, if for some reason the service IP changes, like when we manually deleted and recreated the service, the environment variables won’t be updated in existing pods. These are problems we don’t have when using DNS, and that’s the main reason why it’s generally a preferable solution over environment variables.
+
+
+
