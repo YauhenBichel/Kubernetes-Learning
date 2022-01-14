@@ -1,3 +1,7 @@
+- What is the main job of a Kubernetes service? - To provide a stable endpoint for pods.
+- How will a service know which pods should receive their requests? - By checking matching labels in the pod definition.
+
+
 Pods come and go. We do not have any guarantees about where they are running or how they can be reached.
 
 Services provide a stable endpoint for pods, so we generally never send requests directly to a pod but always through a service.
