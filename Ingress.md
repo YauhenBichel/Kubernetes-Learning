@@ -1,3 +1,12 @@
+An Ingress is a Kubernetes resource used to expose HTTP routes to external clients.
+In order to use this resource, we first need to have an Ingress Controller running in our cluster. There are several open source controllers available, and we used the nginx ingress controller for our examples.
+
+With an Ingress, we can define different rules that will route requests to the service we choose when matched.
+These rules can be based on the path received, the host of the requests, or even both.
+In some cases an Ingress can do the same job that would require several LoadBalancer services to do.
+
+- What is the main job of a Kubernetes Ingress? - To expose HTTP routes to external clients.
+
 Ingress is another Kubernetes resource we can use to expose http(s) routes to external users.
 
 You can think of an Ingress as something that sits in front of several services, and based on some rules that you define, it will decide where a given request should be sent to.

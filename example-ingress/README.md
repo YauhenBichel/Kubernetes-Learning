@@ -56,4 +56,19 @@ Instead of defining one rule with two paths, we now have two different rules.
 Each rule will define a host attribute that will tell Kubernetes that it should match only if the request received is sent to this host (such as, the Host header in the HTTP request).
 
 
+It’s common to be confused about when to use an Ingress instead of a LoadBalancer, so let’s try to clarify that.
+
+First of all, an Ingress is not a service type. It will act just as a smart router sending traffic to services based on the rules we define, while a LoadBalancer will actually provision an entirely new load balancer for each service we have.
+
+But couldn’t we achieve the same thing an ingress does with several LoadBalancer services?
+
+In some cases, we can, but there are a few advantages in using an Ingress.
+
+For each LoadBalancer service we have, a new load balancer needs to be created. If we have 50 services running in our cluster, that means we will need 50 load balancers, which can get quite expensive. An Ingress allows us to achieve the same thing with a single load balancer!
+
+Another thing that’s very useful with ingresses is that we can set up our rules in a way that requests to different paths are sent to different services. For example, if our users access example.com/foo, we may want to send these requests to the foo service and requests to example.com/bar should go to the bar service. This is trivial to implement with an Ingress, but it would be a lot harder if foo and bar each had their own load balancer.
+
+Personally, a LoadBalancer is the easiest way to expose our services, while an Ingress is the most powerful.
+
+
 
