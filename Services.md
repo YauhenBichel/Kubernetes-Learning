@@ -60,6 +60,25 @@ Load Balancer is an extension of a NodePort and ClusterIP. This means you have a
 
 We just need to keep in mind that it will provision an entirely new load balancer for every service of this type that we have. When we talk about the Ingress resource, we will see ways to use a single load balancer with multiple services.
 
+## ExternalName service type
+This service type is a little bit different, as it is not used to provide a stable endpoint to an internal service but to an external one. For example, let’s say we have a database running at my-db.company.com. Instead of having this endpoint hardcoded or defined in a config somewhere, we could create a db service like the following:
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: db
+  spec:
+    type: ExternalName
+    externalName: my-db.company.com
 
+Then our pods can talk to this service without having to know the real address where our database is running. Now, the service is the only place we need to change if this database moves to a different location. Our pods are not affected.
 
+## Service discovery
+Given that we have a few applications running in our cluster, each backed by a Kubernetes service providing a stable endpoint that we can use to reach them, we still need a way to actually find these services. That is, if app-a wants to talk to app-b using service-b, how does it know where it should send requests to?
+
+In a previous example, we have used the service IP directly, which is better than hardcoding the pods’ IPs, as it will not change as pods come and go.
+
+Kubernetes provides two different service discovery mechanisms: DNS and injected environment variables.
+
+### DNS
+Kubernetes provides an out-of-the box, a DNS service to resolve service names. Here’s how it works: If you create a service called service-a, Kubernetes will add an entry for this service in its DNS, so any pod will be able to call, for example, http://service-a:4567. That will be correctly resolved to the service’s IP
 
