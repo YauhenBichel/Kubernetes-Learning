@@ -1,3 +1,19 @@
+Pods come and go. We do not have any guarantees about where they are running or how they can be reached.
+
+Services provide a stable endpoint for pods, so we generally never send requests directly to a pod but always through a service.
+The link between services and pods happens through labels. Any pod that has the labels defined in the service’s selector can receive requests sent to that service.
+
+- There are four types of services: ClusterIP, NodePort, LoadBalancer, and ExternalName.
+- ClusterIP is used when pods running inside the cluster need to be able to reach that service.
+- A NodePort service will open a port on every worker node and will redirect requests received on that port to the pods it’s backing.
+- The LoadBalancer service type will try to automatically provision a load balancer in the cloud provider that we are running. A cluster running on AWS, for example, will create a new ELB that will accept external traffic.
+- We can access a service through its IP address, but Kubernetes provides two better alternatives for service discovery.
+- DNS is the preferred service discovery mechanism and will allow us to access my-service with http://my-service:port.
+- Environment variables with the service location are also injected in every container running in our cluster, but they are never updated, so not as reliable as DNS.
+
+
+
+
 We have seen pods come and go. And we can’t rely on their names (or IP addresses) to be stable. You have probably noticed that when we run port-forward, we always need to make sure that we have the correct pod name, as they will change. For example, this is important when we scale a Deployment up and down.
 
 Let’s first clarify some of the problems we have with our current setup:
