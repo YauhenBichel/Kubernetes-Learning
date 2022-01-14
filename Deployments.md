@@ -1,3 +1,11 @@
+We saw that when a pod dies, either because we manually kill it or because something unexpected happens, Kubernetes will not automatically reschedule it.
+
+That’s one of the reasons why we will almost never run pods directly. We will almost always want to manage pods with another Kubernetes resource called Deployment. Other than making sure our pods are rescheduled when they die, deployments will also help us with several other things:
+- We can use deployments to scale our applications by increasing or decreasing the number of replicas we have running. So far, we have only run one replica of our application.
+- Deployments can handle the rollout of new versions of our application, so we can go from v1 to v2 without any downtime.
+- They also allow us to easily rollback bad releases, as well as preventing bad releases from going through altogether (in some cases).
+
+
 
 
 At a high level, you start with the application code. That gets packaged as a container and wrapped in a Pod so it can run on Kubernetes. However, Pods don’t self-heal; they don’t scale, and they don’t allow for easy updates or rollbacks. Deployments do all of these. As a result, you’ll almost always deploy Pods via a Deployment controller.
