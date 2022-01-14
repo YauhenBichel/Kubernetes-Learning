@@ -38,3 +38,14 @@ Now if we try to list this service, we will see something like this.
 # hellok8s-svc   NodePort   10.102.141.32     4567:30001
 
 
+## Service types
+Now that we have seen how a service works, let’s talk about the different types of services we can have. In the previous lesson, we used a NodePort Service that will open a port on all the worker nodes (30001 in our case) and deliver requests received on that port to all the pods that are behind it. Each Service type has its different uses, and we will learn how to choose the best option for our needs.
+
+## ClusterIP
+This is the simplest type of service. It’s also the default type, which means if we create a service without a type attribute Kubernetes will assume we mean ClusterIP.
+
+This type of service is used when we only need to give other applications that are running inside our cluster access to our pods. If we have, say, three replicas of application app-a and another application app-b needs a stable endpoint to access these replicas, we could create service-a using the ClusterIP type.
+
+
+
+
