@@ -1,3 +1,11 @@
+A pod is the atomic unit of scheduling in Kubernetes. It’s where our containers run.
+We can have multiple containers running in the same pod, but we usually have one primary container and the others just helping the primary.
+
+We don’t scale applications by creating a pod with multiple containers but by creating multiple pods.
+We can interact with running pods through kubectl.
+Pods are not rescheduled automatically when they die.
+
+
 Pods are where our applications run. It’s the basic building block and the atomic unit of scheduling in Kubernetes. Each pod will include one or more containers and every time we run a container in Kubernetes, it will be inside a pod.
 
 It is important to understand that a pod is the atomic unit of scheduling in Kubernetes. So if we want to run, say, 10 replicas of our application, we would create 10 pods instead of creating one pod with 10 containers.

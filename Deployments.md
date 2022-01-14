@@ -1,3 +1,5 @@
+
+
 At a high level, you start with the application code. That gets packaged as a container and wrapped in a Pod so it can run on Kubernetes. However, Pods don’t self-heal; they don’t scale, and they don’t allow for easy updates or rollbacks. Deployments do all of these. As a result, you’ll almost always deploy Pods via a Deployment controller.
 
 It’s important to know that a single Deployment object can only manage a single Pod template. For example, if you have an application with a Pod template for the web front end and another Pod template for the catalog service, you’ll need two Deployments. 

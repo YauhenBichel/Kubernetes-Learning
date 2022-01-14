@@ -58,3 +58,22 @@ curl http://localhost/hello
 
 curl http://localhost
 # (nginx welcome page)
+
+
+#un the pod 
+kubectl apply -f nginx.yaml
+
+#To access the application locally, you need to run:
+kubectl port-forward nginx 3001:80
+#Note: Please wait for the pods to be in a running state before executing the port-forward command.
+
+#But to access the application on this platform, 
+#you need to add an additional address flag. 
+#After running the port-forward command, in order to run further commands, 
+#we can open a new terminal, or we can run the port-forward command with nohup.
+kubectl port-forward --address 0.0.0.0 nginx 3001:80
+nohup kubectl port-forward --address 0.0.0.0 nginx 3001:80 > /dev/null 2>&1 &
+
+kubectl delete pod nginx
+kubectl delete -f nginx.yaml
+
