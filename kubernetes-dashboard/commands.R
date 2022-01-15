@@ -42,3 +42,4 @@ kubectl describe secret default-token
 # ca.crt:     1025 bytes
 # namespace:  7 bytes
 # token:      eyJhbGciOiJS...
+
