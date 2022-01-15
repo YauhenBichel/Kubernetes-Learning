@@ -132,3 +132,46 @@ spec:
 With this change, our environment variable would be injected as "CONFIG_MESSAGE".
 
 
+## Exposing ConfigMap as files
+Instead of injecting a ConfigMap as environment variables as we have done so far, we can also expose it as files that are mounted into the container.
+
+This can be useful when we are storing things like config files (for example, a nginx.conf file) in a ConfigMap that can then be mounted in the correct place in the container.
+
+Here’s an example of a manifest that creates one file for each value in our ConfigMap in the /config directory inside the container:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      volumes:
+       - name: config
+         configMap:
+           name: hellok8s-config
+      containers:
+      - image: brianstorti/hellok8s:v4
+        name: hellok8s-container
+        volumeMounts:
+        - name: config
+          mountPath: /config
+
+We first create a volume called config, using our ConfigMap as the source. Then we mount this volume at the /config path in the container.
+
+## Recap
+ConfigMaps can be used to extract applications configuration so they don’t need to be baked into the docker image.
+
+We can inject environment variables one-by-one or use envFrom to get all the variables from a ConfigMap.
+
+We can also use the prefix property to avoid conflicting variable names for clarity.
+
+ConfigMaps can also be mounted as files in the container, and that can be useful when we are storing things like config files in a ConfigMap instead of only simple strings.
+
