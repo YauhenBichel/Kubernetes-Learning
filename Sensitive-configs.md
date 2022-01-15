@@ -53,3 +53,13 @@ stringData:
   SECRET_MESSAGE: "It works with a Secret"
 
 
+It’s up to you to decide if you want to inject your secrets as environment variables or mount a volume, but keep in mind that putting sensitive data in environment variables may have unintended consequences. It’s not uncommon for applications to dump all the environment variables when they crash, outputting everything for error reporting, which could expose some sensitive information. For example, we could be shipping our logs to a third party provider that would gladly receive our database credentials. Environment variables are also inherited by child processes that our container can create. So depending on what we are running, we may not want that to happen.
+
+Secrets are very similar to ConfigMaps in the way they are used, but there are some key differences in how they work to provide more security.
+
+A Secret will never be written to physical storage, they are stored encrypted in the master node, and they are only distributed to the nodes that are running pods that need them.
+
+
+Secrets, like ConfigMaps, can be injected into containers as environment variables or mounted as a volume.
+Keeping sensitive data in environment variables can have unintended consequences, so we should think twice before doing that.
+
