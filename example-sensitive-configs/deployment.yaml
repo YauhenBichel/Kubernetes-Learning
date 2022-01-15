@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+      - image: yauhenbichel/hellok8s:v4
+        name: hellok8s-container
+        env:
+          - name: MESSAGE
+            valueFrom:
+              secretKeyRef:
+                name: hellok8s-secret
+                key: SECRET_MESSAGE
