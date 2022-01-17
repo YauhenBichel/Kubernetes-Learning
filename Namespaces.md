@@ -1,3 +1,9 @@
+Most resources in Kubernetes live in a namespace. But unless we explicitly define a different value, the default namespace is assumed.
+Although namespaces let us organize resources, they do not provide strong security boundaries.
+
+We can create resources in different namespaces by either defining a namespace name in the manifest metadata or by using the -n flag when running kubectl apply.
+We can access services from different namespaces by using their full path: <service-name>.<namespace-name>.
+
 Most resources in Kubernetes will live in a namespace. All the pods, deployments, services, configmaps, and everything else we have created so far are all running in the default namespace; that (as the name implies) is where resources will run if we don’t explicitly say we want them to run somewhere else.
 
 We can create other namespaces if we want, and they can help us organize our resources the same way we can organize our code with modules or packages. It should be clear, though, that namespaces do not provide strong security boundaries. Resources from one namespace can still access resources from another.
@@ -44,5 +50,10 @@ spec:
     image: nginx
 
 And then we can just kubectl apply it without the -n flag, and this pod would be created in the defined namespace.
+
+
+As we have seen before, when we create a service, Kubernetes will allow us to access that service with a DNS entry using the service name. So if we have a service called my-service, we can access it with something like $ curl http://my-service. These DNS entries are also scoped by namespace, so the path will be <service-name>.<namespace-name>, and when the namespace-name is omitted, the current namespace is assumed. Using the previous example, it would be the same thing as calling http://my-service.default. Let’s see that in action.
+
+To make it easier to see what’s happening in our example, we will use the hellok8s image we have built before, running a different version in each namespace, and then we will create the exact same service in both namespaces.
 
 
