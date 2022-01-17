@@ -3,6 +3,14 @@ All the pods that we have run so far are intended to keep running indefinitely. 
 
 A Job is a resource that (just like a Deployment) will create one or more pods for us. It will then watch these pods and make sure they do what they need to do and exit successfully. When all the pods finish, the Job is then marked as completed and its work is done.
 
+
+A Job can be used to run a task to completion. It will start a pod, wait until it finishes successfully, and then be marked as completed.
+A database migration is a good example of a task that could use a Job, as it doesn’t need to keep running after the migration finishes.
+
+By default, all Jobs will run just once to completion. We can change that with the completions property and define how many pods can run in parallel using the parallelism property.
+Kubernetes has another high-level resource called CronJob that we can use to schedule Jobs to run.
+
+
 ## example-job/echo-job.yaml
 example-job/echo-job.yaml  is a “one-shot” Job. It will start a container that echos a message and exits. As soon as this container finishes, it will be marked as “completed” and this Job is done.
 
@@ -63,6 +71,29 @@ spec:
         command: ["echo", "Running in a job"]
 Now instead of running pods sequentially, this Job will run three pods at a time. As soon as one of them finishes, it will start a new one until we reach our goal of five completions. A use-case for this could be processing messages from a queue in parallel.
 
+Things can go wrong, and a pod can fail. That could be because of an application error or because of a node failure while the pod is running.
+
+The goal of a Job is to ensure that a pod (or the number we defined in the completions property) finishes successfully. Because of this, when that doesn’t happen, it will try again. As we have seen before, depending on how we set the restartPolicy for this pod, it will either restart the pod in place (restartPolicy=OnFailure) or mark the pod as failed and start a new one (restartPolicy=Never).
+
+We can also set the activeDeadlineSeconds property to define for how long this Job is allowed to run. After this number of seconds, if all the pods still haven’t finished successfully, the Job fails. By default, a Job will not have a deadline.
+
+We can also make Jobs run on a schedule with another high level resource called CronJob.
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: echo-cronjob
+spec:
+  schedule: "* * * * *" # Every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: echo
+            image: busybox
+            command: ["echo", "Triggered by a CronJob"]
 
 
 
