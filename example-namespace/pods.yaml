@@ -1,0 +1,26 @@
+# pods.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: default
+  name: hellok8s
+  labels:
+    app: hellok8s
+spec:
+  containers:
+  - name: hellok8s-container
+    image: brianstorti/hellok8s:v4
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: my-namespace
+  name: hellok8s
+  labels:
+    app: hellok8s
+spec:
+  containers:
+  - name: hellok8s-container
+    image: brianstorti/hellok8s:v3
